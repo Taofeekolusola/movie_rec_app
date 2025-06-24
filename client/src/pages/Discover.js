@@ -6,37 +6,83 @@ function Discover() {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
   const [error, setError] = useState("");
+  const [sortBy, setSortBy] = useState("");
+  const [minRating, setMinRating] = useState("");
+  const [fromYear, setFromYear] = useState("");
 
-  const handleSearch = async e => {
-    e.preventDefault();
-    if (!query.trim()) return;
+ const handleSearch = async (e) => {
+  e.preventDefault();
 
-    try {
-      const res = await api.get(`/movies/search?query=${query}`);
-      setResults(res.data);
-      setError("");
-    } catch (err) {
-      setError("Failed to fetch movies.");
-      setResults([]);
-    }
-  };
+  try {
+    const params = {
+      sort_by: sortBy || undefined,
+      min_rating: minRating || undefined,
+      from_year: fromYear || undefined,
+    };
+
+    // Only include query if non-empty
+    if (query.trim()) params.query = query.trim();
+
+    const res = await api.get("/movies/search", { params });
+    setResults(res.data);
+    setError("");
+  } catch (err) {
+    setError("Failed to fetch movies.");
+    setResults([]);
+  }
+};
+
+
 
   return (
     <div className="p-4">
       <h2 className="text-2xl font-bold mb-4">🎥 Discover Movies</h2>
 
-      <form onSubmit={handleSearch} className="flex mb-6">
-        <input
-          type="text"
-          placeholder="Search by title..."
-          value={query}
-          onChange={e => setQuery(e.target.value)}
-          className="flex-1 p-2 border rounded-l"
-        />
-        <button type="submit" className="bg-blue-600 text-white px-4 rounded-r">
-          Search
-        </button>
-      </form>
+      <form onSubmit={handleSearch} className="mb-6 space-y-4">
+    <div className="flex flex-wrap gap-4">
+      <input
+        type="text"
+        placeholder="Search by title..."
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        className="p-2 border rounded w-full sm:w-64"
+      />
+      <select
+        value={sortBy}
+        onChange={(e) => setSortBy(e.target.value)}
+        className="p-2 border rounded w-full sm:w-48"
+      >
+        <option value="">Sort By</option>
+        <option value="popularity.desc">Popularity</option>
+        <option value="release_date.desc">Release Date</option>
+        <option value="vote_average.desc">Rating</option>
+      </select>
+      <input
+        type="number"
+        placeholder="Min Rating (e.g., 7)"
+        value={minRating}
+        onChange={(e) => setMinRating(e.target.value)}
+        className="p-2 border rounded w-full sm:w-40"
+        min="0"
+        max="10"
+      />
+      <input
+        type="number"
+        placeholder="From Year (e.g., 2015)"
+        value={fromYear}
+        onChange={(e) => setFromYear(e.target.value)}
+        className="p-2 border rounded w-full sm:w-40"
+        min="1900"
+      />
+      <button
+        type="submit"
+        className="bg-blue-600 text-white px-4 py-2 rounded"
+      >
+        Search
+      </button>
+    </div>
+  </form>
+
 
       {error && <p className="text-red-500">{error}</p>}
 
