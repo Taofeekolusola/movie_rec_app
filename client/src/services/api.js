@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:5003/api",
+  baseURL: "https://movie-rec-app-4fu8.onrender.com/api",
 });
 
 // ✅ Attach token with "Bearer " prefix

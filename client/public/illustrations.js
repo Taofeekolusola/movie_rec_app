@@ -1,0 +1,1 @@
+undraw_golden-gate-bridge_1c6x.svg

@@ -12,7 +12,7 @@ function Navbar() {
 
   return (
     <nav className="bg-gray-800 text-white px-4 py-3 flex justify-between items-center">
-      <Link to="/" className="font-bold text-xl">🎬 MovieApp</Link>
+      <Link to="/" className="font-bold text-xl">🎬 MovieMate</Link>
 
       <div className="space-x-4">
         <Link to="/" className="hover:underline">Discover</Link>
