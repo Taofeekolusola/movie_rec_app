@@ -27,6 +27,28 @@ const postReview = async (req, res) => {
   }
 };
 
+// DELETE /api/user/reviews/:reviewId
+const deleteReview = async (req, res) => {
+  const { reviewId } = req.params;
+  try {
+    // Delete the review from the Review collection
+    await Review.findByIdAndDelete(reviewId);
+
+    // Also remove the reference from the User
+    const user = await User.findByIdAndUpdate(
+      req.user.id,
+      { $pull: { reviews: reviewId } },
+      { new: true }
+    ).populate("reviews");
+
+    res.status(200).json({ message: "Review deleted", reviews: user.reviews });
+  } catch (err) {
+    console.error("Error deleting review:", err);
+    res.status(500).json({ error: "Failed to delete review" });
+  }
+};
+
 module.exports = {
   postReview,
+  deleteReview
 };
