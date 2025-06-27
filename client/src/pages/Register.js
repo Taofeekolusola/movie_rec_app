@@ -8,11 +8,11 @@ function Register() {
   const [formData, setFormData] = useState({ name: "", email: "", password: "" });
   const [error, setError] = useState("");
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await api.post("/auth/register", formData);
@@ -23,18 +23,29 @@ function Register() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-100 via-white to-purple-200 px-4">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-purple-100 via-white to-purple-200 px-4 py-8">
+      
+      {/* Page Heading */}
+      <div className="w-full text-center mb-6 px-4">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-white bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-3 rounded-xl shadow-xl inline-block backdrop-blur-sm">
+          Signup for MovieMate
+        </h2>
+      </div>
+
+      {/* Register Card */}
       <div className="w-full max-w-4xl bg-white shadow-2xl rounded-2xl overflow-hidden flex flex-col md:flex-row animate-fade-in">
         
         {/* Left Panel */}
-        <div className="md:w-1/2 bg-purple-600 text-white flex flex-col justify-center items-center p-10 space-y-4">
-          <h2 className="text-4xl font-extrabold">Join the Club</h2>
-          <p className="text-purple-100 text-center text-sm px-4">Register to track your favorite movies and create a personalized watchlist!</p>
+        <div className="w-full md:w-1/2 bg-gradient-to-r from-purple-600 to-pink-600 text-white flex flex-col justify-center items-center py-10 px-6 space-y-3">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-center">Join the Club</h2>
+          <p className="text-white text-center text-sm sm:text-base px-2">
+            Register to track your favorite movies and create a personalized watchlist!
+          </p>
         </div>
 
         {/* Right Form */}
-        <div className="w-full md:w-1/2 p-10">
-          <h2 className="text-3xl font-semibold text-center mb-6">Register</h2>
+        <div className="w-full md:w-1/2 p-6 sm:p-10">
+          <h2 className="text-2xl sm:text-3xl font-semibold text-center mb-6">Register</h2>
           <form onSubmit={handleSubmit} className="space-y-5">
             <div className="flex items-center border border-gray-300 rounded px-4 py-3 bg-gray-50">
               <FaUser className="text-gray-400 mr-3" />
@@ -43,7 +54,7 @@ function Register() {
                 type="text"
                 placeholder="Name"
                 onChange={handleChange}
-                className="w-full bg-transparent outline-none"
+                className="w-full bg-transparent outline-none text-sm sm:text-base"
                 required
               />
             </div>
@@ -55,7 +66,7 @@ function Register() {
                 type="email"
                 placeholder="Email"
                 onChange={handleChange}
-                className="w-full bg-transparent outline-none"
+                className="w-full bg-transparent outline-none text-sm sm:text-base"
                 required
               />
             </div>
@@ -67,7 +78,7 @@ function Register() {
                 type="password"
                 placeholder="Password"
                 onChange={handleChange}
-                className="w-full bg-transparent outline-none"
+                className="w-full bg-transparent outline-none text-sm sm:text-base"
                 required
               />
             </div>
