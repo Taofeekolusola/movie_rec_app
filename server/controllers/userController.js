@@ -1,5 +1,4 @@
 const User = require("../models/User");
-const mongoose = require("mongoose");
 const axios = require("axios");
 
 // Add movie to favorites
@@ -8,7 +7,9 @@ const addToFavorites = async (req, res) => {
 
   try {
     const user = await User.findById(req.user.id);
-    const alreadyExists = user.favorites.some(movie => movie.movieId === movieId);
+    const parsedMovieId = String(movieId); 
+    const alreadyExists = user.favorites.some(movie => String(movie.movieId) === parsedMovieId);
+
     if (alreadyExists) return res.status(400).json({ message: "Movie already in favorites" });
 
     user.favorites.push({ movieId, title, posterPath });
@@ -26,7 +27,9 @@ const addToWatchlist = async (req, res) => {
 
   try {
     const user = await User.findById(req.user.id);
-    const alreadyExists = user.watchlist.some(movie => movie.movieId === movieId);
+    const parsedMovieId = String(movieId);
+    // Check if movie already exists in watchlist
+    const alreadyExists = user.watchlist.some(movie => String(movie.movieId) === parsedMovieId);
     if (alreadyExists) return res.status(400).json({ message: "Movie already in watchlist" });
 
     user.watchlist.push({ movieId, title, posterPath });
